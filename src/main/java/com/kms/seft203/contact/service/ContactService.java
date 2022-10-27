@@ -45,4 +45,9 @@ public class ContactService {
     public void deleteContactById(String id) {
         contactRepository.deleteById(id);
     }
+
+
+    public Integer findNumberOfTitle(String title) {
+        return contactRepository.findNumberOfTitle(title);
+    }
 }

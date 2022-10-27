@@ -19,4 +19,7 @@ public interface ContactRepository extends JpaRepository<Contact, String> {
     void update(String firstName, String lastName, String title,
                 String department, String project, String avatar, Integer employID, String id);
 
+    @Transactional
+    @Query(value = "select count(*) from Contact c where c.title = ?1", nativeQuery = true)
+    Integer findNumberOfTitle(String title);
 }

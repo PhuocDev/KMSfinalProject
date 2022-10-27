@@ -1,6 +1,7 @@
 package com.kms.seft203.contact.controller;
 
 import com.kms.seft203.contact.dto.SaveContactRequest;
+import com.kms.seft203.task.SaveTaskRequest;
 
 public class Validation {
 
@@ -10,5 +11,12 @@ public class Validation {
                 && contact.getTitle() != null && contact.getEmployeeId() != null
                 && contact.getDepartment() != null) return true;
         else  return  false;
+    }
+
+    public static boolean validateTaskDTO(SaveTaskRequest request) {
+        if (request.getTask() == null || request.getCompleted() == null || request.getUserId() == null ){
+            return  false;
+        }
+        else return true;
     }
 }
