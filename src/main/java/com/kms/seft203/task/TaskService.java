@@ -23,13 +23,14 @@ public class TaskService {
     void deleteTask(String id) {
         taskRepository.deleteById(id);
     }
-    void update(String id, Task task) {
-        taskRepository.update(task.getTask(),task.getIsCompleted(), task.getUserId(), id);
-    }
+    void update(String id, Task newTask) {
+        Task oldtask = taskRepository.getById(id);
+        oldtask.setTask(newTask.getTask());
+        oldtask.setCompleted(newTask.getIsCompleted());
+        oldtask.setUserId(newTask.getUserId());
 
-    public Integer findNumberOfTitle(String field) {
-        //return taskRepository.findNumberOfTitle(field);
-        return 1;
+        taskRepository.saveAndFlush(oldtask);
+
     }
 
     public Integer findNumberOfIncompletedTask() {

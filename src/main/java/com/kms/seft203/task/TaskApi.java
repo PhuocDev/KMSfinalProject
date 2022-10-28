@@ -1,6 +1,6 @@
 package com.kms.seft203.task;
 
-import com.kms.seft203.contact.controller.Validation;
+import com.kms.seft203.Validation.Validation;
 import com.kms.seft203.exception.APImessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +29,7 @@ public class TaskApi {
         }
         return taskService.getTasks();
     }
-    @GetMapping
+    @GetMapping({"/", "/all"})
     public List<Task> getAll() {
         //return new ArrayList<>(DATA.values());
         return taskService.getTasks();

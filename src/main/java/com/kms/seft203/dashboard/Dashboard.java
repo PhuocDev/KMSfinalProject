@@ -24,7 +24,7 @@ public class Dashboard {
     @NotEmpty @NotNull
     private String layoutType;
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "widget_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "widget_id")
     private List<Widget> widgets;
 }

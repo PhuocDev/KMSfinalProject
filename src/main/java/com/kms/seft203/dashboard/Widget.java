@@ -3,10 +3,7 @@ package com.kms.seft203.dashboard;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
@@ -18,6 +15,7 @@ public class Widget {
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     @NotNull
+    @Column(name = "widget_id")
     private String title;
     @NotEmpty
     private String widgetType;

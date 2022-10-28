@@ -26,11 +26,15 @@ public class ContactService {
     }
     public Contact updateContact(String id, Contact contactNew) {
         Contact contactChange = contactRepository.findById(id).get();
-        contactChange.clone(contactNew);
-        contactRepository.update(contactChange.getFirstName(), contactChange.getLastName(),
-                contactChange.getTitle(), contactChange.getDepartment(), contactChange.getProject(),
-                contactChange.getAvatar(),
-                contactChange.getEmployeeId(), id );
+        contactChange.setAvatar(contactNew.getAvatar());
+        contactChange.setDepartment(contactChange.getDepartment());
+        contactChange.setEmployeeId(contactChange.getEmployeeId());
+        contactChange.setFirstName(contactChange.getFirstName());
+        contactChange.setLastName(contactNew.getLastName());
+        contactChange.setProject(contactNew.getProject());
+        contactChange.setTitle(contactNew.getTitle());
+
+        contactRepository.saveAndFlush(contactChange);
         return contactChange;
     }
 
