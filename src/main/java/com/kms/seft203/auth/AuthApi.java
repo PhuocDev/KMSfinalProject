@@ -38,7 +38,7 @@ public class AuthApi {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-        if ("admin".equals(request.getUsername()) && "Admin@123".equals(request.getPassword())) {
+        if ("admin".equals(request.getUsername()) && "admin".equals(request.getPassword())) {
             LoginResponse loginResponse = new LoginResponse(
                     createJwtToken("admin", "Admin User"), "<refresh_token>");
             return ResponseEntity.ok(loginResponse);
