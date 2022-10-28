@@ -1,6 +1,5 @@
-package com.kms.seft203.contact.entity;
+package com.kms.seft203.contact;
 
-import com.kms.seft203.contact.dto.SaveContactRequest;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -58,7 +57,6 @@ public class Contact {
     public Contact() {
 
     }
-
     public Contact(SaveContactRequest request) {
         this.title = request.getTitle();
         this.project = request.getProject();

@@ -1,8 +1,6 @@
 package com.kms.seft203.report;
 
-import com.kms.seft203.contact.repository.ContactRepository;
-import com.kms.seft203.contact.service.ContactService;
-import com.kms.seft203.task.TaskRepository;
+import com.kms.seft203.contact.ContactService;
 import com.kms.seft203.task.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

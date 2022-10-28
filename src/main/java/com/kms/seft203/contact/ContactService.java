@@ -1,7 +1,7 @@
-package com.kms.seft203.contact.service;
+package com.kms.seft203.contact;
 
-import com.kms.seft203.contact.entity.Contact;
-import com.kms.seft203.contact.repository.ContactRepository;
+import com.kms.seft203.contact.Contact;
+import com.kms.seft203.contact.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

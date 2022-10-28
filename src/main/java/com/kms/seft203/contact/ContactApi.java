@@ -1,9 +1,6 @@
-package com.kms.seft203.contact.controller;
+package com.kms.seft203.contact;
 
 import com.kms.seft203.Validation.Validation;
-import com.kms.seft203.contact.entity.Contact;
-import com.kms.seft203.contact.dto.SaveContactRequest;
-import com.kms.seft203.contact.service.ContactService;
 import com.kms.seft203.exception.APImessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
