@@ -1,6 +1,5 @@
-package com.kms.seft203.contact.dto;
+package com.kms.seft203.contact;
 
-import com.kms.seft203.contact.entity.Contact;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

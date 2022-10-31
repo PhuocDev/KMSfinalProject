@@ -1,9 +1,6 @@
-package com.kms.seft203.contact.controller;
+package com.kms.seft203.contact;
 
 import com.kms.seft203.Validation.Validation;
-import com.kms.seft203.contact.entity.Contact;
-import com.kms.seft203.contact.dto.SaveContactRequest;
-import com.kms.seft203.contact.service.ContactService;
 import com.kms.seft203.exception.APImessages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,34 +19,22 @@ public class ContactApi {
     @Autowired
     ContactService contactService;
 
-    @GetMapping({"/all", "/"})
+    @GetMapping({  ""})
     public List<Contact> getAll() {
         //return new ArrayList<>(DATA.values());
         return contactService.getAllContacts();
     }
 
-    @GetMapping("/delete/all")
-    public ResponseEntity<?> deleteAll() {
-        contactService.deleteAll();
-        APImessages imessages = new APImessages("Deleted all the database");
-        return new ResponseEntity<APImessages>(imessages, HttpStatus.OK);
-    }
-    @GetMapping("/createDB")
-    public List<Contact> createDB() {
-        for (int i = 1 ; i < 5 ; i++) {
-            Contact contact = new Contact("Bui","Phuoc", "BE", "Depart" + i*564, "project " + i*123, "avatar " + i*92, 1000+ i);
-            contactService.saveContact(contact);
-        }
-        return contactService.getAllContacts();
-    }
     @GetMapping("/{id}")
-    public Contact getOne(@PathVariable String id) {
+    public ResponseEntity<?> getOne(@PathVariable("id") String id) {
         //return DATA.get(id);
-        return contactService.getContactId(id);
+        if (contactService.contactRepository.existsById(id)) {
+            return new ResponseEntity<>(contactService.getContactId(id), HttpStatus.FOUND);
+        } else return new ResponseEntity<>("Not found contact id: " + id, HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> create(@RequestBody @Valid SaveContactRequest request) {
+    @PostMapping
+    public ResponseEntity<?> addNewContact(@RequestBody @Valid SaveContactRequest request) {
         //DATA.put(request.getId(), request);
         //Tất cả các constrains của input sẽ được đặt bên trong validateContract
         if (Validation.validateContact(request)) {
@@ -60,7 +45,7 @@ public class ContactApi {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody SaveContactRequest request) {
+    public ResponseEntity<?> updateContact(@PathVariable String id, @RequestBody SaveContactRequest request) {
         if (contactService.getContactId(id) == null) {
             APImessages apImessages = new APImessages("Not found contact id: " + id);
             return new ResponseEntity<APImessages>(apImessages, HttpStatus.NOT_FOUND);
@@ -84,6 +69,21 @@ public class ContactApi {
             return new ResponseEntity<APImessages>(message, HttpStatus.OK);
         }
     }
+
+//    @GetMapping("/delete/all")
+//    public ResponseEntity<?> deleteAll() {
+//        contactService.deleteAll();
+//        APImessages imessages = new APImessages("Deleted all the database");
+//        return new ResponseEntity<APImessages>(imessages, HttpStatus.OK);
+//    }
+//    @GetMapping("/createDB")
+//    public List<Contact> createDB() {
+//        for (int i = 1 ; i < 5 ; i++) {
+//            Contact contact = new Contact("Bui","Phuoc", "BE", "Depart" + i*564, "project " + i*123, "avatar " + i*92, 1000+ i);
+//            contactService.saveContact(contact);
+//        }
+//        return contactService.getAllContacts();
+//    }
     /*
     {
     "firstName":"Nguyen",
