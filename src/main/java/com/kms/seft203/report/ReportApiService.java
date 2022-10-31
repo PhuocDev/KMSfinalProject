@@ -24,16 +24,18 @@ public class ReportApiService {
 
     public Map<String,Integer> ContactFilter(String collection, String field) {
         Map<String, Integer> result = new HashMap<>();
-        if (collection.equals("contact")) {
+        if (collection.equals("contacts")) {
             Integer numberOfField = 0;
             numberOfField = contactService.findNumberOfTitle(field);
             result.put(field, numberOfField);
         }
-        else if (collection.equals("task")) {
+        else if (collection.equals("tasks")) {
             Integer numberOfIncompletedTasks = taskService.findNumberOfIncompletedTask();
             Integer numberOfComletedTasks = taskService.findNumberOfCompletedTask();
-            result.put("Incompleted Task: ", numberOfIncompletedTasks);
-            result.put("Completed Task: ", numberOfComletedTasks);
+            if (field.equals("isNotCompleted"))
+                result.put("Incompleted Task: ", numberOfIncompletedTasks);
+            if (field.equals("isCompleted"))
+                result.put("Completed Task: ", numberOfComletedTasks);
         }
         return result;
     }

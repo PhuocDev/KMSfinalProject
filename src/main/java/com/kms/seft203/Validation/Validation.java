@@ -14,9 +14,9 @@ public class Validation {
     }
 
     public static boolean validateTaskDTO(SaveTaskRequest request) {
-        if (request.getTask() == null || request.getCompleted() == null || request.getUserId() == null ){
+        if (request.getTask() == null || request.getIsCompleted() == null || request.getUserId() == null ){
             return  false;
         }
-        else return true;
+        return true;
     }
 }

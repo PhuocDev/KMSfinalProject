@@ -1,12 +1,14 @@
 package com.kms.seft203.dashboard;
 
+
 import com.kms.seft203.dashboard.widget.Widget;
-import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,29 +22,36 @@ public class Dashboard {
     @NotNull
     @Column(name = "dashboard_id")
     private String id;
+
     @NotEmpty @NotNull
     private String userId;
+
     @NotEmpty @NotNull
     private String title;
     @NotEmpty @NotNull
     private String layoutType;
 
-    public Dashboard(String userId, String title, String layoutType) {
-        this.userId = userId;
-        this.title = title;
-        this.layoutType = layoutType;
-    }
+
+    @OneToMany
+    private List<Widget> widgets = new ArrayList<>();
+
 
     public Dashboard() {
 
     }
-    @OneToMany( mappedBy = "dashboard",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Widget> widgets;
+
+    public Dashboard(String userId, String title, String layoutType, List<Widget> widgets) {
+        this.userId = userId;
+        this.title = title;
+        this.layoutType = layoutType;
+        this.widgets = widgets;
+    }
 
     public Dashboard(SaveDashboardRequest request) {
         this.userId = request.getUserId();
         this.title = request.getTitle();
         this.layoutType = request.getLayoutType();
+        this.widgets = request.getWidgets();
     }
 
     public String getId() {
@@ -84,4 +93,5 @@ public class Dashboard {
     public void setWidgets(List<Widget> widgets) {
         this.widgets = widgets;
     }
+
 }

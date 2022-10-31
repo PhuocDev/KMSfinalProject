@@ -1,5 +1,6 @@
 package com.kms.seft203.task;
 
+import com.kms.seft203.auth.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,8 @@ import java.util.List;
 public class TaskService {
     @Autowired
     TaskRepository taskRepository;
+    @Autowired
+    UserService userService;
     List<Task> getTasks() {
         return taskRepository.findAll();
     }
@@ -26,7 +29,7 @@ public class TaskService {
     void update(String id, Task newTask) {
         Task oldtask = taskRepository.getById(id);
         oldtask.setTask(newTask.getTask());
-        oldtask.setCompleted(newTask.getIsCompleted());
+        oldtask.setIsCompleted(newTask.getIsCompleted());
         oldtask.setUserId(newTask.getUserId());
 
         taskRepository.saveAndFlush(oldtask);
@@ -39,5 +42,9 @@ public class TaskService {
 
     public Integer findNumberOfCompletedTask() {
         return taskRepository.findNumberOfCompletedTask();
+    }
+
+    public boolean existUserId(String userId) {
+        return userService.isUserIdExist(userId);
     }
 }

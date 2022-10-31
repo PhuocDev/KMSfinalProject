@@ -20,16 +20,7 @@ public class TaskApi {
     TaskService taskService;
     private static final Map<String, Task> DATA = new HashMap<>();
 
-
-    @GetMapping("/createDB")
-    public List<Task> createDB() {
-        for (int i = 1; i < 5; i++) {
-            Task task = new Task("Task " + i, false, "100" +i*3419384   );
-            taskService.insertNewTask(task);
-        }
-        return taskService.getTasks();
-    }
-    @GetMapping({"/", "/all"})
+    @GetMapping
     public List<Task> getAll() {
         //return new ArrayList<>(DATA.values());
         return taskService.getTasks();
@@ -45,13 +36,16 @@ public class TaskApi {
         }
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> create(@RequestBody @Valid SaveTaskRequest request) {
+    @PostMapping
+    public ResponseEntity<?> insertNewTask(@RequestBody SaveTaskRequest request) {
         //DATA.put(request.getId(), request);
         if (Validation.validateTaskDTO(request)) {
-            Task task = new Task(request);
-            taskService.insertNewTask(task);
-            return  new ResponseEntity<Task>(task, HttpStatus.OK);
+            if (!taskService.existUserId(request.getUserId())) {
+                return new ResponseEntity<>("Not found user id: " + request.getUserId(), HttpStatus.NOT_FOUND);
+            }
+            Task newTask = new Task(request);
+            taskService.insertNewTask(newTask);
+            return  new ResponseEntity<Task>(taskService.getTaskById(newTask.getId()), HttpStatus.OK);
         } else
             return new ResponseEntity<String>("Request invalid", HttpStatus.BAD_REQUEST);
     }
@@ -59,7 +53,7 @@ public class TaskApi {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable String id, @RequestBody SaveTaskRequest request) {
         //DATA.put(id, request);
-        if (Validation.validateTaskDTO(request)) {
+        if (Validation.validateTaskDTO(request) && taskService.existUserId(request.getUserId())) {
             Task newTask = new Task(request);
             taskService.update(id, newTask);
             return  new ResponseEntity<Task>(taskService.getTaskById(id), HttpStatus.OK);
@@ -70,7 +64,6 @@ public class TaskApi {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id) {
-        //return DATA.remove(id);
         //check if not found task id
         if (taskService.getTaskById(id) == null) {
             APImessages apImessages = new APImessages("Not found task id: " + id);

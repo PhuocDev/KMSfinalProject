@@ -17,11 +17,7 @@ import java.util.List;
 
 
 public class SaveDashboardRequest  {
-    @Id
-    @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @NotNull
-    private String id;
+
     @NotEmpty
     @NotNull
     private String userId;
@@ -31,14 +27,6 @@ public class SaveDashboardRequest  {
     private String layoutType;
 
     private List<Widget> widgets;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getUserId() {
         return userId;

@@ -1,20 +1,19 @@
 package com.kms.seft203.task;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kms.seft203.auth.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.net.UnknownServiceException;
 
 @Data
-@AllArgsConstructor
 @Entity
 @Table(name = "task")
 public class Task implements Serializable {
@@ -27,12 +26,24 @@ public class Task implements Serializable {
     private String task;
     @NotNull
     private Boolean isCompleted;
+
     @NotNull
     private String userId;
+//    @OneToOne(fetch = FetchType.EAGER)
+//    @JsonIgnore
+//    private User user;
 
     public Task() {
 
     }
+
+    public Task(String id, String task, Boolean isCompleted, String userId) {
+        this.id = id;
+        this.task = task;
+        this.isCompleted = isCompleted;
+        this.userId = userId;
+    }
+
     public Task(String task, Boolean isCompleted, String userId) {
         this.task = task;
         this.isCompleted = isCompleted;
@@ -61,13 +72,6 @@ public class Task implements Serializable {
         this.task = task;
     }
 
-    public Boolean getCompleted() {
-        return isCompleted;
-    }
-
-    public void setCompleted(Boolean completed) {
-        isCompleted = completed;
-    }
 
     public String getUserId() {
         return userId;
@@ -75,5 +79,13 @@ public class Task implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public Boolean getIsCompleted() {
+        return isCompleted;
+    }
+
+    public void setIsCompleted(Boolean completed) {
+        isCompleted = completed;
     }
 }
