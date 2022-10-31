@@ -1,4 +1,4 @@
-package com.kms.seft203.auth;
+package com.kms.seft203.auth.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,4 +10,7 @@ import lombok.NoArgsConstructor;
 public class LoginResponse {
     private String token;
     private String refreshToken;
+
+    public LoginResponse(String jwt) {
+    }
 }

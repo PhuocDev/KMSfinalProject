@@ -3,6 +3,7 @@ package com.kms.seft203.auth.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,6 +14,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @GetMapping("/createDB")
     public List<User> createDB() {
@@ -21,6 +24,13 @@ public class UserController {
             userService.insertNewUser(user);
         }
         return userService.getUsers();
+    }
+    @GetMapping("/createNewUserHash")
+    public User createUser() {
+        String password = "phuoc123";
+        User user = new User("phuoc123", "Phuoc@Gmail.com12",passwordEncoder.encode(password) ,"Fullname" );
+        userService.insertNewUser(user);
+        return userService.findUserByUsername("phuoc123");
     }
 
     @GetMapping

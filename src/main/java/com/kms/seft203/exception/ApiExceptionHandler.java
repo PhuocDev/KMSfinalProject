@@ -31,6 +31,7 @@ public class ApiExceptionHandler {
         return new ErrorMessage(10100, "Đối tượng không tồn tại");
     }
 
+
     //Catch validation exception
     @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)  // Nếu validate fail thì trả về 400
