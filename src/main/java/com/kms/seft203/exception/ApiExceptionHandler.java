@@ -16,12 +16,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-    @ResponseBody
-    @ExceptionHandler(BookNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    String BookNotFoundHandler(BookNotFoundException ex) {
-        return ex.getMessage();
-    }
+
     /**
      * IndexOutOfBoundsException sẽ được xử lý riêng tại đây
      */

@@ -20,6 +20,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,6 +38,8 @@ public class AuthApi {
     UserService userService;
 
     @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
     AuthenticationManager authenticationManager;
 
     @Autowired
@@ -47,7 +50,7 @@ public class AuthApi {
         User user = new User(
                 request.getUsername(),
                 request.getEmail(),
-                request.getPassword(),
+                passwordEncoder.encode(request.getPassword()),
                 request.getFullName()
         );
         userService.insertNewUser(user);
@@ -56,10 +59,6 @@ public class AuthApi {
         return user;
     }
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello";
-    }
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
 
@@ -71,49 +70,18 @@ public class AuthApi {
                         loginRequest.getPassword()
                 )
         );
-        System.out.println(authentication.getAuthorities());
         // Nếu không xảy ra exception tức là thông tin hợp lệ
         // Set thông tin authentication vào Security Context
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("step 2");
+        System.out.println("Authentication comleted!");
         // Trả về jwt cho người dùng.
         String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
         return new ResponseEntity<String>(jwt, HttpStatus.OK);
-//        if (userService.checkLogin(request.getUsername(), request.getPassword()))
-//        {
-//            LoginResponse loginResponse = new LoginResponse(createJwtToken(request.getUsername(), "User/Admin"), "<refresh_token>");
-//            return ResponseEntity.ok(loginResponse);
-//        } else return new ResponseEntity<>("Error",HttpStatus.BAD_REQUEST);
-//
-
-
-//        String username = null, password = null;
-//        if (userService.checkLogin(request.getUsername(), request.getPassword())) {
-//            System.out.println("username va mat khau dung");
-//            username = request.getUsername();
-//            password = request.getPassword();
-//        }
-//        Authentication authentication =  authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(username,password)
-//            );
-//        if (userService.checkLogin(request.getUsername(), request.getPassword())) {
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//            LoginResponse loginResponse = new LoginResponse(createJwtToken(request.getUsername(), "User/Admin"), "<refresh_token>");
-//            return ResponseEntity.ok(loginResponse);
-//        } else return new ResponseEntity<>("Error",HttpStatus.BAD_REQUEST);
-//        User user = DATA.get(request.getUsername());
-//        if (user != null && user.getPassword().equals(request.getPassword())) {
-//            LoginResponse loginResponse = new LoginResponse(
-//                    createJwtToken(request.getUsername(), user.getFullName()), "<refresh_token>");
-//            return ResponseEntity.ok(loginResponse);
-//        }
-        //return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
     }
 
     private String createJwtToken(String username, String displayName) {
         try {
-            //Algorithm algorithm = Algorithm.HMAC256("this is a secret");
             String JWT_SECRET = "phuoc123";
             return Jwts.builder()
                     .setSubject(String.format(username))
@@ -128,7 +96,8 @@ public class AuthApi {
         }
     }
 
-    @PostMapping("/logout")
-    public void logout(@RequestBody LogoutRequest request) {
+    @GetMapping("/logout")
+    public String logout(@RequestBody LogoutRequest request) {
+        return "Logged out";
     }
 }

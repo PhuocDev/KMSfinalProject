@@ -2,7 +2,10 @@ package com.kms.seft203.task;
 
 import com.kms.seft203.auth.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -17,6 +20,10 @@ public class TaskService {
     }
 
     Task getTaskById(String id){
+        Task getTask = taskRepository.findById(id).get();
+        if (getTask == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } else
         return taskRepository.findById(id).get();
     }
     void insertNewTask(Task task) {

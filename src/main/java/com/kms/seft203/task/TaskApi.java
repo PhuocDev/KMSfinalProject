@@ -1,5 +1,6 @@
 package com.kms.seft203.task;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kms.seft203.Validation.Validation;
 import com.kms.seft203.exception.APImessages;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,10 @@ public class TaskApi {
             return new ResponseEntity<APImessages>(message, HttpStatus.NOT_FOUND);
         }
     }
+//    @GetMapping("/{id}")
+//    public Task getOneTask(@PathVariable String id) {
+//        return taskService.getTaskById(id);
+//    }
 
     @PostMapping
     public ResponseEntity<?> insertNewTask(@RequestBody SaveTaskRequest request) {
@@ -51,6 +56,7 @@ public class TaskApi {
     }
 
     @PutMapping("/{id}")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public ResponseEntity<?> update(@PathVariable String id, @RequestBody SaveTaskRequest request) {
         //DATA.put(id, request);
         if (Validation.validateTaskDTO(request) && taskService.existUserId(request.getUserId())) {

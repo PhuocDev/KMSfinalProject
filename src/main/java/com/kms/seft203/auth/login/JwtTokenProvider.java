@@ -1,5 +1,6 @@
 package com.kms.seft203.auth.login;
 import com.kms.seft203.auth.CustomUserDetails;
+import io.jsonwebtoken.impl.DefaultClock;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
@@ -29,13 +30,13 @@ public class JwtTokenProvider {
     }
 
     // Lấy thông tin user từ jwt
-    public Long getUserIdFromJWT(String token) {
+    public String getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
 
-        return Long.parseLong(claims.getSubject());
+        return (claims.getSubject());
     }
 
     public boolean validateToken(String authToken) {
@@ -52,5 +53,9 @@ public class JwtTokenProvider {
             log.error("JWT claims string is empty.");
         }
         return false;
+    }
+
+    public void destroyToken() {
+
     }
 }

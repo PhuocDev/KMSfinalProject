@@ -10,10 +10,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 
 @EnableWebSecurity
@@ -51,18 +51,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .antMatchers("/auth/login").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
-                .antMatchers("/auth/hello").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
-                .antMatchers("/users/**").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
-                .anyRequest().authenticated()
-                .and()
                 .cors() // Ngăn chặn request từ một domain khác
                 .and()
-                .csrf().disable();
-                 // Tất cả các request khác đều cần phải xác thực mới được truy cập
+                .csrf().disable()
+                .logout().logoutUrl("/auth/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .and()
+                .authorizeRequests()
+                .antMatchers("/auth/login").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
+                .antMatchers("/users").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
+                .antMatchers("/tasks/**").permitAll()
+                .antMatchers("/contacts/**").permitAll()
+                .antMatchers("/app/version").permitAll()
+                .anyRequest().authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
 
         // Thêm một lớp Filter kiểm tra jwt
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http.logout(logout -> logout
+                        .logoutUrl("/auth/logout")
+                        .addLogoutHandler(new SecurityContextLogoutHandler())
+                );
     }
 }
