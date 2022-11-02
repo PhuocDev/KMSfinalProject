@@ -63,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
                 .antMatchers("/tasks/**").permitAll()
                 .antMatchers("/contacts/**").permitAll()
+                .antMatchers("/dashboards/**").permitAll()
                 .antMatchers("/app/version").permitAll()
                 .anyRequest().authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
 

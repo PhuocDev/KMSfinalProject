@@ -1,5 +1,6 @@
 package com.kms.seft203.dashboard;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kms.seft203.auth.user.UserService;
 import com.kms.seft203.dashboard.widget.Widget;
 import com.kms.seft203.dashboard.widget.WidgetRepository;
@@ -34,6 +35,7 @@ public class DashboardApi {
         return dashboardService.getDashboard();
     }
     @PutMapping("/{id}")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public ResponseEntity<?> update(@PathVariable String id, @RequestBody SaveDashboardRequest request) {
         //DATA.put(id, request);
         Dashboard newDash = new Dashboard(request);
