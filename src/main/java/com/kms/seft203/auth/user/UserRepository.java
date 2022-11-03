@@ -6,4 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
+    boolean existsByUsername(String username);
+    boolean existsByPassword(String password);
+
+    User findByUsername(String userName);
 }

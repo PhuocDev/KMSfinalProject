@@ -16,12 +16,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-    @ResponseBody
-    @ExceptionHandler(BookNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    String BookNotFoundHandler(BookNotFoundException ex) {
-        return ex.getMessage();
-    }
+
     /**
      * IndexOutOfBoundsException sẽ được xử lý riêng tại đây
      */
@@ -30,6 +25,7 @@ public class ApiExceptionHandler {
     public ErrorMessage TodoException(Exception ex, WebRequest request) {
         return new ErrorMessage(10100, "Đối tượng không tồn tại");
     }
+
 
     //Catch validation exception
     @ExceptionHandler(BindException.class)

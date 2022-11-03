@@ -16,6 +16,7 @@ import java.net.UnknownServiceException;
 @Data
 @Entity
 @Table(name = "task")
+
 public class Task implements Serializable {
     @Id
     @GeneratedValue(generator="system-uuid")

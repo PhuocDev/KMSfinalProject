@@ -1,4 +1,4 @@
-package com.kms.seft203.report;
+package com.kms.seft203.exception.report;
 
 import com.kms.seft203.contact.ContactService;
 import com.kms.seft203.task.TaskService;

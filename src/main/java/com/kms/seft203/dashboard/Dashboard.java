@@ -32,12 +32,23 @@ public class Dashboard {
     private String layoutType;
 
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Widget> widgets = new ArrayList<>();
 
 
     public Dashboard() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Dashboard{" +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", title='" + title + '\'' +
+                ", layoutType='" + layoutType + '\'' +
+                ", widgets=" + widgets +
+                '}';
     }
 
     public Dashboard(String userId, String title, String layoutType, List<Widget> widgets) {
