@@ -43,6 +43,30 @@ public class DashboardApi {
         return new ResponseEntity<Dashboard>(dashboardService.getDashboardById(id), HttpStatus.OK);
     }
 
+
+    private List<Widget> getAllWidgetFromDTO(SaveDashboardRequest dashboardDTO) {
+        List<Widget> widgetList = new ArrayList<>();
+        for (Widget i : dashboardDTO.getWidgets()) {
+            if (widgetRepository.existsById(i.getId())) {
+                widgetList.add(i);
+            }
+        }
+        return widgetList;
+    }
+    @PostMapping
+    public ResponseEntity<?> insertNewDashboard(@RequestBody SaveDashboardRequest request) {
+        if (request.getUserId()== null || request.getLayoutType() == null) {
+            return new ResponseEntity<String>("Not enough information", HttpStatus.BAD_REQUEST);
+        } else {
+            //check if userId and widget id exist
+            if (userService.isUserIdExist(request.getUserId()) ) {
+                Dashboard newDash = new Dashboard(request);
+                //newDash.setWidgets(getAllWidgetFromDTO(request));
+                dashboardService.insertDashboard(newDash);
+                return new ResponseEntity<Dashboard>(dashboardService.getDashboardById(newDash.getId()), HttpStatus.ACCEPTED);
+            } else return new ResponseEntity<String>("Not found user id or widget id", HttpStatus.NOT_FOUND);
+        }
+    }
 //    @GetMapping("/{id}")
 //    public Dashboard findDasId(@PathVariable("id") String id) {
 //        Dashboard dashboard = dashboardService.getDashboardById(id);
@@ -60,19 +84,7 @@ public class DashboardApi {
 //            return new ResponseEntity<String>("Deleted dashboard id: " + id, HttpStatus.ACCEPTED);
 //        }
 //    }
-//    @PostMapping("/")
-//    public ResponseEntity<?> insertNewDashboard(@RequestBody SaveDashboardRequest request) {
-//        if (request.getUserId()== null || request.getLayoutType() == null) {
-//            return new ResponseEntity<String>("Not enough information", HttpStatus.BAD_REQUEST);
-//        } else {
-//            //check if userId and widget id exist
-//            if (userService.isUserIdExist(request.getUserId()) ) {
-//                Dashboard newDash = new Dashboard(request);
-//                dashboardService.insertDashboard(newDash);
-//                return new ResponseEntity<Dashboard>(dashboardService.getDashboardById(newDash.getId()), HttpStatus.ACCEPTED);
-//            } else return new ResponseEntity<String>("Not found user id or widget id", HttpStatus.NOT_FOUND);
-//        }
-//    }
+
 
 //    @DeleteMapping("/delete/{idDas}/{id}")
 //    public ResponseEntity<?> deleteWidget(@PathVariable("id") String widgetId, @PathVariable("idDas") String idDas){
@@ -86,25 +98,22 @@ public class DashboardApi {
 //    public void deleteAll() {
 //        dashboardService.deleteAll();
 //    }
-//@GetMapping("/createDB")
-//public List<Dashboard> createDB() {
-//    List<Widget> widgetList = new ArrayList<>();
-//    Map<String, Object> temporary = null;
-//    Widget widget1 = new Widget("Widget 1", "type A", 1000, 2000, temporary );
-//    Widget widget2 = new Widget("Widget 2", "type B", 1000, 2000, temporary );
-//    Widget widget3 = new Widget("Widget 3", "type C", 1000, 2000, temporary );
-//    Widget widget4 = new Widget("Widget 4", "type C", 1000, 2000, temporary );
-//    widgetList.add(widget1);
-//    widgetList.add(widget2);
-//    widgetList.add(widget3);
-//    widgetRepository.save(widget1);
-//    widgetRepository.save(widget2);
-//    widgetRepository.save(widget3);
-//    widgetRepository.save(widget4);
-//
-//    //  Dashboard dashboard = new Dashboard("4028ec36841e18e601841e191a300000", "title 1", "type 1", widgetList);
-//    Dashboard dashboard2 = new Dashboard("4028ec36841e18e601841e191a300000", "title 2", "type 2", (List<Widget>) widget4);
-//    dashboardService.insertDashboard(dashboard2);
-//    return dashboardService.getDashboard();
-//}
+    @GetMapping("/createDB")
+    public List<Dashboard> createDB() {
+        List<Widget> widgetList = new ArrayList<>();
+        Map<String, Object> temporary = null;
+//        Widget widget1 = new Widget("Widget 1", "type D", 1000, 2000, temporary );
+//        Widget widget2 = new Widget("Widget 2", "type E", 1000, 2000, temporary );
+//        Widget widget4 = new Widget("Widget 4", "type F", 1000, 2000, temporary );
+//        widgetList.add(widget1);
+//        widgetList.add(widget2);
+//        widgetList.add(widget4);
+        widgetList.add(widgetRepository.findAll().get(1));
+        widgetList.add(widgetRepository.findAll().get(2));
+
+        //  Dashboard dashboard = new Dashboard("4028ec36841e18e601841e191a300000", "title 1", "type 1", widgetList);
+        Dashboard dashboard2 = new Dashboard("4028ec36841e18e601841e191a300000", "title special 2", "type 7", widgetList);
+        dashboardService.insertDashboard(dashboard2);
+        return dashboardService.getDashboard();
+    }
 }
