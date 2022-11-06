@@ -1,5 +1,6 @@
 package com.kms.seft203.auth.user;
 
+import com.kms.seft203.auth.DTO.RegisterRequest;
 import com.kms.seft203.dashboard.Dashboard;
 import com.kms.seft203.task.Task;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,10 @@ public class User {
     @NotNull @NotEmpty
     private String fullName;
 
+    private Boolean enable;
+
+    private String verificationCode;
+
     public User() {
 
     }
@@ -39,6 +44,38 @@ public class User {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
+    }
+
+    public User(String username, String email, String password, String fullName, Boolean enable, String verificationCode) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+        this.enable = enable;
+        this.verificationCode = verificationCode;
+    }
+
+    public User(RegisterRequest registerRequest) {
+        this.username = registerRequest.getUsername();
+        this.fullName = registerRequest.getFullName();
+        this.email = registerRequest.getEmail();
+        this.password = registerRequest.getPassword();
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
 
     public String getId() {
@@ -79,5 +116,21 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getVerificationcode() {
+        return this.verificationCode;
+    }
+
+    public void setVerificationcode(String randomCode) {
+        this.verificationCode = randomCode;
+    }
+
+    public void setEnabled(boolean enable) {
+        this.enable = enable;
+    }
+
+    public boolean isEnabled() {
+        return this.enable;
     }
 }

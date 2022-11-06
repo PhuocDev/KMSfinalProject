@@ -16,34 +16,9 @@ public class UserController {
     UserService userService;
     @Autowired
     PasswordEncoder passwordEncoder;
-
-    @GetMapping("/createDB")
-    public List<User> createDB() {
-        for (int i = 1; i < 5; i++) {
-            User user = new User("Username" + i, "Email+" + i, "pass" + i*567344,"Fullname" + i );
-            userService.insertNewUser(user);
-        }
-        return userService.getUsers();
-    }
-    @GetMapping("/createNewUserHash")
-    public User createUser() {
-        String password = "phuoc123";
-        User user = new User("phuoc123", "Phuoc@Gmail.com12",passwordEncoder.encode(password) ,"Fullname" );
-        userService.insertNewUser(user);
-        return userService.findUserByUsername("phuoc123");
-    }
-
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getUsers();
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<?> insertUser(@RequestBody @Valid User newUser) {
-        if (newUser!= null) {
-            userService.insertNewUser(newUser);
-            return new ResponseEntity<User>(newUser, HttpStatus.OK);
-        } else return new ResponseEntity<String>( "Can not insert user", HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/{id}")

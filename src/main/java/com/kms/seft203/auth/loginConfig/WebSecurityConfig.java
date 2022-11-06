@@ -1,5 +1,6 @@
-package com.kms.seft203.auth.login;
+package com.kms.seft203.auth.loginConfig;
 
+import com.kms.seft203.auth.JWT.JwtFilter;
 import com.kms.seft203.auth.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 
 @EnableWebSecurity
@@ -23,16 +23,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
 
+//    @Bean
+//    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+//        return new JwtAuthenticationFilter();
+//    }
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
-    }
-
+    public JwtFilter jwtAuthenticationFilter() {
+        return new JwtFilter();
+    };
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         // Get AuthenticationManager bean
         return super.authenticationManagerBean();
+    }
+    @Bean
+    public JwtFilter jwtFilter()
+    {
+        return new JwtFilter();
     }
 
     @Bean
@@ -60,19 +68,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/auth/login").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
-                .antMatchers("/users").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
-                .antMatchers("/tasks/**").permitAll()
-                .antMatchers("/contacts/**").permitAll()
-                .antMatchers("/dashboards/**").permitAll()
+                .antMatchers("/auth/refreshToken").permitAll()
+                .antMatchers("/auth/verify").permitAll()
                 .antMatchers("/app/version").permitAll()
                 .anyRequest().authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
-
-        // Thêm một lớp Filter kiểm tra jwt
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        http.logout(logout -> logout
-                        .logoutUrl("/auth/logout")
-                        .addLogoutHandler(new SecurityContextLogoutHandler())
-                );
+        http.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
