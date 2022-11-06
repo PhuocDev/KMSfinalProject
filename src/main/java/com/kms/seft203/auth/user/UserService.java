@@ -201,7 +201,7 @@ public class UserService implements UserDetailsService {
         {
             return false;
         }
-        user.setVerificationcode(null);
+        user.setVerificationcode(verificationCode);
         user.setEnabled(true);
         userRepository.save(user);
         return true;

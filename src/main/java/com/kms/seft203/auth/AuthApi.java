@@ -4,6 +4,7 @@ import com.kms.seft203.auth.DTO.*;
 import com.kms.seft203.auth.JWT.UserJwtRepository;
 import com.kms.seft203.auth.user.User;
 import com.kms.seft203.auth.user.UserService;
+import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -86,5 +88,8 @@ public class AuthApi {
         }
         return "new token: " + newToken;
     }
-
+    @GetMapping("/accounts")
+    public List<User> showAllAccount() {
+        return userService.getUsers();
+    }
 }

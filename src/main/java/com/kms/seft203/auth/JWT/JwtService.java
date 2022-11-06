@@ -28,7 +28,7 @@ public class JwtService {
         this.jwtSecret = jwtSecret;
         this.issuer = issuer;
     }
-    private final static int timeExpired = 20000; //3*60*60*1000;
+    private final static int timeExpired = 3*60*60*1000;
     private final static int refreshTokenLength = 50;
 
     public String createUserToken(User user)

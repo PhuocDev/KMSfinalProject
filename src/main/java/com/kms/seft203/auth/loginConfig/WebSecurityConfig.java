@@ -69,6 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/auth/login").permitAll() // Cho phép tất cả mọi người truy cập vào địa chỉ này
                 .antMatchers("/auth/refreshToken").permitAll()
+                .antMatchers("/auth/verify").permitAll()
                 .antMatchers("/app/version").permitAll()
                 .anyRequest().authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
         http.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
