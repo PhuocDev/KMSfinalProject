@@ -18,7 +18,6 @@ public class SaveContactRequest extends Contact {
     private String title;
     @NotEmpty(message = "department cannot be empty")
     private String department;
-
     private String project;
     private String avatar;
     @NotEmpty(message = "employid cannot empty")

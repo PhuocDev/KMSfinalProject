@@ -1,8 +1,7 @@
-package com.kms.seft203.auth;
+package com.kms.seft203.auth.user;
 
 
 import com.kms.seft203.auth.user.User;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,14 +16,16 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails() {
     }
-
+    public String getId() {
+        return user.getId();
+    }
     public CustomUserDetails(User user) {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Mặc định mình sẽ để tất cả là ROLE_USER. Để demo cho đơn giản.
+        // Mặc định mình sẽ để tất cả là ROLE_USER
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
