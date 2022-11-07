@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/app")
 @RequiredArgsConstructor
 public class AppApi {
-
     private final AppVersionRepository appVersionRepo;
 
     @GetMapping("/version")
