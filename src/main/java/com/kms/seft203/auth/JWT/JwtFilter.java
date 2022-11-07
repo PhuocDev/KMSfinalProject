@@ -54,7 +54,7 @@ public class JwtFilter extends OncePerRequestFilter {
             {
                 //chỗ này không cần validate lại token username lần nữa vì điều đó đã
                 //được check lúc đăng nhập
-                System.out.println("UserDetails "+userDetails);
+                //System.out.println("UserDetails "+userDetails);
                     //authenticate token receive
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

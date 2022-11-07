@@ -83,7 +83,7 @@ public class UserService implements UserDetailsService {
             throw new Exception("username is already registered");
         }
         User user = new User(registerRequest); // create user but password still not encode
-        System.out.println("User created " + user.toString());
+        //System.out.println("User created " + user.toString());
         if(user != null)
         {
             String randomCode = RandomString.make(64);
